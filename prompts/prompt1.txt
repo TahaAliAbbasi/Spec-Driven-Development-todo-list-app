@@ -1,0 +1,229 @@
+You are a principal software architect and governance designer.
+
+Your task is to produce a Project Constitution in Markdown format using Spec-Kit Plus standards.
+This Constitution will govern all design, specification, implementation, and AI-assisted development decisions for the project described below.
+
+📘 Project Title
+
+Evolution of Todo – A 5-Phase Spec-Driven AI-Native Todo Platform
+
+🎯 Project Purpose
+
+The purpose of this Constitution is to:
+
+Enforce Spec-Driven Development
+
+Define non-negotiable architectural rules
+
+Control Claude Code’s implementation behavior
+
+Ensure consistency across all 5 hackathon phases
+
+Prevent manual coding and ad-hoc design decisions
+
+This Constitution must be binding for every future spec and feature.
+
+🧱 Core Governance Principles
+
+The Constitution must explicitly define and enforce:
+
+Spec-First Mandate
+
+No feature may be implemented without an approved Spec
+
+Specs must be written and refined before code generation
+
+Claude Code is the only entity allowed to generate code
+
+No Manual Code Rule
+
+The developer may not write code by hand
+
+If output is incorrect, the Spec must be refined—not the code
+
+Incremental Phase Evolution
+
+Each phase builds strictly on the previous one
+
+No skipping or leaking of future-phase features
+
+Deterministic AI Behavior
+
+Claude Code must:
+
+Follow specs literally
+
+Avoid assumptions not stated in specs
+
+Reject ambiguous instructions
+
+Separation of Concerns
+
+Specs, Constitution, and Implementation are independent artifacts
+
+Business logic, UI, AI agents, and infrastructure must remain decoupled
+
+🧩 Required Constitutional Sections
+
+The Constitution must include the following sections (with clear headings):
+
+1. Scope & Boundaries
+
+What the project includes
+
+What it explicitly excludes
+
+Phase-based scope control
+
+2. Development Methodology
+
+Spec-Driven Development workflow
+
+Spec → Review → Refine → Generate → Validate loop
+
+Acceptance criteria enforcement
+
+3. Phase Governance Rules
+
+Define immutable rules for each phase:
+
+Phase I: In-Memory Python Console App
+(Python, Spec-Kit Plus, Claude Code)
+
+Phase II: Full-Stack Web App
+(Next.js, FastAPI, SQLModel, Neon DB)
+
+Phase III: AI-Powered Todo Chatbot
+(OpenAI ChatKit, Agents SDK, MCP SDK)
+
+Phase IV: Local Kubernetes Deployment
+(Docker, Minikube, Helm, kubectl-ai, kagent)
+
+Phase V: Cloud-Native Deployment
+(Kafka, Dapr, DigitalOcean Kubernetes)
+
+Each phase must define:
+
+Allowed technologies
+
+Disallowed shortcuts
+
+Required deliverables
+
+4. Feature Evolution Contract
+
+Define rules governing the Todo feature progression:
+
+Basic Level
+
+Add Task
+
+Delete Task
+
+Update Task
+
+View Task List
+
+Mark as Complete
+
+Intermediate Level
+
+Priorities & Tags
+
+Search & Filter
+
+Sorting
+
+Advanced Level
+
+Recurring Tasks
+
+Due Dates & Reminders
+
+Agent-assisted task management
+
+Include rules preventing premature implementation.
+
+5. AI Agent Governance
+
+Define constitutional rules for:
+
+Natural language task management
+
+Use of OpenAI ChatKit
+
+Use of Agents SDK & MCP
+
+Intent parsing vs execution separation
+
+Safety, determinism, and traceability
+
+6. Infrastructure & Deployment Rules
+
+Specify:
+
+Local vs cloud deployment separation
+
+Kubernetes constraints
+
+Environment parity rules
+
+No infrastructure without specs
+
+7. Bonus Feature Governance
+
+Define how bonus features are allowed:
+
+Subagents & Agent Skills
+
+Cloud-Native Blueprints
+
+Multi-language support (Urdu)
+
+Voice commands
+
+Each bonus must:
+
+Be isolated
+
+Be spec-approved
+
+Never destabilize core features
+
+8. Failure Handling & Enforcement
+
+Define:
+
+What happens when specs are violated
+
+When Claude Code must refuse to generate code
+
+How conflicts are resolved (Constitution > Spec > Implementation)
+
+🧾 Tone & Style Requirements
+
+Professional
+
+Declarative and authoritative
+
+Clear “MUST / MUST NOT / SHOULD” language
+
+No implementation details
+
+Markdown formatted
+
+Suitable for real-world engineering governance
+
+📦 Output Requirements
+
+Output only the Markdown Constitution
+
+No explanations
+
+No summaries
+
+No emojis
+
+No code blocks
+
+This Constitution will be used as the supreme governing document for all future Specs and AI-generated code.

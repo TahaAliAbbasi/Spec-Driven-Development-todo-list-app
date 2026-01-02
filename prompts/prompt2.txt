@@ -1,0 +1,102 @@
+Generate a complete, clear, and well-structured specification for the following application:
+
+Application Overview
+
+An In-Memory Python Console-Based Todo Application that allows users to manage tasks during a single program session.
+No data persistence is required; all data exists only in memory while the application is running.
+
+Functional Requirements
+
+The application must support the following features:
+
+Add Task
+
+Create a new todo item
+
+Each task must include:
+
+Unique task ID
+
+Task title
+
+Optional description
+
+Completion status (default: incomplete)
+
+Delete Task
+
+Remove an existing task by its ID
+
+Handle invalid or non-existent task IDs gracefully
+
+Update Task
+
+Modify an existing task’s title and/or description
+
+Allow partial updates
+
+Preserve completion status unless explicitly changed
+
+View Task List
+
+Display all tasks in a readable, numbered format
+
+Clearly indicate completed vs incomplete tasks
+
+Show task ID, title, and status
+
+Mark Task as Complete
+
+Toggle completion status (complete ↔ incomplete)
+
+Identify task by ID
+
+Console Interaction Requirements
+
+The app must be menu-driven
+
+Display a numbered menu with available actions
+
+Accept user input via standard input
+
+Validate all inputs and display user-friendly error messages
+
+Continue running until the user explicitly chooses to exit
+
+Non-Functional Requirements
+
+Written in Python
+
+In-memory data storage only (no files, no databases)
+
+Clear separation of concerns:
+
+Task model
+
+Business logic
+
+Console UI
+
+Readable, maintainable, and testable structure
+
+Avoid external dependencies
+
+Data Model
+
+Define a Task entity with:
+
+id: int
+
+title: str
+
+description: str
+
+is_completed: bool
+
+Constraints
+
+No persistence across runs
+
+No GUI or web interface
+
+Python standard library only
