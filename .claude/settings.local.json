@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git fetch --all --prune)",
+      "Bash(.specify/scripts/powershell/create-new-feature.ps1:*)",
+      "Bash(.specify/scripts/powershell/check-prerequisites.ps1 -Json)",
+      "SlashCommand(/sp.plan)",
+      "Bash(.specify/scripts/powershell/setup-plan.ps1 -Json)",
+      "Bash(.specify/scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks)",
+      "Bash(dir \"C:\\Users\\tahaa\\OneDrive\\Desktop\\Spec-Driven-Development-todo-list-app\\specs\\003-web-todo-app\\checklists\" -Name)",
+      "Bash(python -c:*)",
+      "Bash(pip install:*)",
+      "Bash(python -m uvicorn src.main:app --reload)",
+      "Bash(python -m uvicorn src.main:app --reload --port 8000:*)",
+      "Bash(curl:*)",
+      "Bash(python src/main.py)",
+      "Bash(python test_routes.py)",
+      "Bash(taskkill /f /im uvicorn.exe:*)",
+      "Bash(taskkill /f /im python.exe)",
+      "Bash(findstr uvicorn)",
+      "Bash(python -m uvicorn app:app --port 8001 --reload)",
+      "Bash(tasklist)",
+      "Bash(findstr python)",
+      "Bash(python -m uvicorn src.main:app --reload --port 8003)",
+      "Bash(dir frontend)",
+      "Bash(dir frontend /s)",
+      "Bash(npm run dev)",
+      "Bash(npm install)",
+      "Bash(dir \"C:\\Users\\tahaa\\OneDrive\\Desktop\\Spec-Driven-Development-todo-list-app\\frontend\\src\\app\" /s)",
+      "Bash(dir:*)",
+      "Bash(findstr \"\\.css\")",
+      "Bash(python -m uvicorn:*)",
+      "Bash(npm run build)",
+      "Bash(python -m pip install:*)",
+      "Bash(python:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
