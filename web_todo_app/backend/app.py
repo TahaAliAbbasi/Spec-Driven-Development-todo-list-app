@@ -27,12 +27,20 @@ async def lifespan(app: FastAPI):
 
 def create_app():
     """Create and configure the FastAPI application."""
-    app = FastAPI(
-        title="Todo List API",
-        description="A simple todo list API built with FastAPI and SQLModel",
-        version="0.1.0",
-        lifespan=lifespan
-    )
+    # Skip lifespan in serverless environments
+    if os.getenv("VERCEL"):
+        app = FastAPI(
+            title="Todo List API",
+            description="A simple todo list API built with FastAPI and SQLModel",
+            version="0.1.0"
+        )
+    else:
+        app = FastAPI(
+            title="Todo List API",
+            description="A simple todo list API built with FastAPI and SQLModel",
+            version="0.1.0",
+            lifespan=lifespan
+        )
 
     # Add CORS middleware to allow requests from frontend
     app.add_middleware(
