@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine
-from sqlalchemy.pool import StaticPool
+from sqlalchemy.pool import StaticPool, NullPool
 from sqlmodel import SQLModel
 from sqlalchemy.orm import sessionmaker
 from typing import Generator
@@ -15,6 +15,9 @@ logger = logging.getLogger(__name__)
 # Get database URL from environment, default to SQLite for development
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./todo_app.db")
 
+# Detect if running in serverless environment (Vercel)
+IS_SERVERLESS = os.getenv("VERCEL") is not None
+
 # Create engine based on database type
 try:
     if DATABASE_URL.startswith("sqlite"):
@@ -26,16 +29,26 @@ try:
         )
         logger.info("Database engine created for SQLite")
     else:
-        # For PostgreSQL/other databases with proper connection pooling and SSL
-        engine = create_engine(
-            DATABASE_URL,
-            pool_size=5,
-            max_overflow=10,
-            pool_pre_ping=True,
-            pool_recycle=300,
-            echo=False  # Set to True for debugging
-        )
-        logger.info("Database engine created for PostgreSQL with connection pooling")
+        # For PostgreSQL - use NullPool in serverless, connection pooling otherwise
+        if IS_SERVERLESS:
+            # Serverless: no connection pooling, NeonDB pooler handles it
+            engine = create_engine(
+                DATABASE_URL,
+                poolclass=NullPool,
+                echo=False
+            )
+            logger.info("Database engine created for PostgreSQL (serverless mode with NullPool)")
+        else:
+            # Local development: use connection pooling
+            engine = create_engine(
+                DATABASE_URL,
+                pool_size=5,
+                max_overflow=10,
+                pool_pre_ping=True,
+                pool_recycle=300,
+                echo=False
+            )
+            logger.info("Database engine created for PostgreSQL with connection pooling")
 except Exception as e:
     logger.error(f"Failed to create database engine: {e}")
     raise
