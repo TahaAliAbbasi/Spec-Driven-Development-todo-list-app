@@ -56,9 +56,24 @@ def create_app():
     # Include routes (import at the end to avoid circular imports)
     try:
         from src.api.v1.routes import tasks
-        print("Routes imported successfully")
         app.include_router(tasks.router, prefix="/v1", tags=["tasks"])
         print("Routes included successfully")
+    except ImportError as e:
+        print(f"ImportError importing routes: {e}")
+        # Try alternative import for serverless environment
+        try:
+            import sys
+            import os
+            backend_path = os.path.dirname(os.path.abspath(__file__))
+            if backend_path not in sys.path:
+                sys.path.insert(0, backend_path)
+            from src.api.v1.routes import tasks
+            app.include_router(tasks.router, prefix="/v1", tags=["tasks"])
+            print("Routes included successfully (alternative import)")
+        except Exception as e2:
+            print(f"Failed to import routes with alternative method: {e2}")
+            import traceback
+            traceback.print_exc()
     except Exception as e:
         print(f"Error importing routes: {e}")
         import traceback
