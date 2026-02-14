@@ -12,5 +12,5 @@ if backend_dir not in sys.path:
 # Import the FastAPI app
 from app import app
 
-# Vercel will use this as the ASGI application
-handler = app
+# Export for Vercel
+app = app
