@@ -32,7 +32,12 @@
       "Bash(python -m uvicorn:*)",
       "Bash(npm run build)",
       "Bash(python -m pip install:*)",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(node test_backend_connection.js:*)",
+      "Bash(.specify/scripts/powershell/update-agent-context.ps1:*)",
+      "Bash(powershell -Command \"Get-ChildItem ''C:\\\\Users\\\\tahaa\\\\OneDrive\\\\Desktop\\\\Spec-Driven-Development-todo-list-app\\\\specs\\\\001-neon-db-integration\\\\checklists\\\\''\")",
+      "Bash(export DATABASE_URL=\"postgresql://neondb_owner:npg_WnSvVz2DYH7k@ep-withered-shape-ainx0eeh-pooler.c-4.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require\")",
+      "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_WnSvVz2DYH7k@ep-withered-shape-ainx0eeh-pooler.c-4.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require\" python:*)"
     ],
     "deny": [],
     "ask": []

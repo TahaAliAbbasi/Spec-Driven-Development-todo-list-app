@@ -16,6 +16,9 @@ class Task(TaskBase, table=True):
     created_at: Optional[datetime] = Field(default_factory=datetime.now)
     updated_at: Optional[datetime] = Field(default_factory=datetime.now)
 
+    # SQLAlchemy event listeners for auto-updating updated_at
+    # These will be handled in the service layer for SQLModel compatibility
+
 
 class TaskPublic(TaskBase):
     """Public Task model without database-specific fields."""

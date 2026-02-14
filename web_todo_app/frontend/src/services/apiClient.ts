@@ -21,7 +21,7 @@ export interface UpdateTaskRequest {
 }
 
 // Base API URL - defaults to localhost:8000 for development
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/v1';
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8001/v1';
 
 /**
  * API client service for task operations

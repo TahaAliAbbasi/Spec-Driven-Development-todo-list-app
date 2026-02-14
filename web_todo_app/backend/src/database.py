@@ -5,22 +5,40 @@ from sqlalchemy.orm import sessionmaker
 from typing import Generator
 import os
 from contextlib import contextmanager
+import logging
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 # Get database URL from environment, default to SQLite for development
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./todo_app.db")
 
 # Create engine based on database type
-if DATABASE_URL.startswith("sqlite"):
-    # For SQLite, use StaticPool and check_same_thread=False
-    engine = create_engine(
-        DATABASE_URL,
-        connect_args={"check_same_thread": False},  # Needed for SQLite
-        poolclass=StaticPool,
-    )
-else:
-    # For PostgreSQL/other databases
-    engine = create_engine(DATABASE_URL)
+try:
+    if DATABASE_URL.startswith("sqlite"):
+        # For SQLite, use StaticPool and check_same_thread=False
+        engine = create_engine(
+            DATABASE_URL,
+            connect_args={"check_same_thread": False},  # Needed for SQLite
+            poolclass=StaticPool,
+        )
+        logger.info("Database engine created for SQLite")
+    else:
+        # For PostgreSQL/other databases with proper connection pooling and SSL
+        engine = create_engine(
+            DATABASE_URL,
+            pool_size=5,
+            max_overflow=10,
+            pool_pre_ping=True,
+            pool_recycle=300,
+            echo=False  # Set to True for debugging
+        )
+        logger.info("Database engine created for PostgreSQL with connection pooling")
+except Exception as e:
+    logger.error(f"Failed to create database engine: {e}")
+    raise
 
 # Create session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -28,7 +46,12 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def create_db_and_tables():
     """Create database tables if they don't exist."""
-    SQLModel.metadata.create_all(bind=engine)
+    try:
+        SQLModel.metadata.create_all(bind=engine)
+        logger.info("Database tables created successfully")
+    except Exception as e:
+        logger.error(f"Failed to create database tables: {e}")
+        raise
 
 
 from contextlib import contextmanager
@@ -43,8 +66,9 @@ def get_session():  # This will be used with Depends()
     try:
         yield session
         session.commit()
-    except Exception:
+    except Exception as e:
         session.rollback()
+        logger.error(f"Database session error: {e}")
         raise
     finally:
         session.close()
