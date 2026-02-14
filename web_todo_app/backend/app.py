@@ -14,8 +14,14 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Lifespan event handler to initialize database tables."""
-    from src.database import create_db_and_tables
-    create_db_and_tables()
+    # Only create tables if not in serverless environment
+    # In serverless, tables should be pre-created
+    if not os.getenv("VERCEL"):
+        try:
+            from src.database import create_db_and_tables
+            create_db_and_tables()
+        except Exception as e:
+            print(f"Warning: Could not create database tables: {e}")
     yield
 
 
