@@ -37,7 +37,12 @@
       "Bash(.specify/scripts/powershell/update-agent-context.ps1:*)",
       "Bash(powershell -Command \"Get-ChildItem ''C:\\\\Users\\\\tahaa\\\\OneDrive\\\\Desktop\\\\Spec-Driven-Development-todo-list-app\\\\specs\\\\001-neon-db-integration\\\\checklists\\\\''\")",
       "Bash(export DATABASE_URL=\"postgresql://neondb_owner:npg_WnSvVz2DYH7k@ep-withered-shape-ainx0eeh-pooler.c-4.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require\")",
-      "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_WnSvVz2DYH7k@ep-withered-shape-ainx0eeh-pooler.c-4.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require\" python:*)"
+      "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_WnSvVz2DYH7k@ep-withered-shape-ainx0eeh-pooler.c-4.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require\" python:*)",
+      "Bash(git add web_todo_app/backend/vercel.json)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git add web_todo_app/backend/api/index.py web_todo_app/backend/vercel.json)",
+      "Bash(git add web_todo_app/backend/api/index.py)"
     ],
     "deny": [],
     "ask": []
