@@ -1,6 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import Providers from './providers';
+import Navigation from '../components/Navigation';
 
 export const metadata: Metadata = {
   title: 'Modern Todo App',
@@ -20,6 +21,7 @@ export default function RootLayout({
       <body className="bg-gray-50 min-h-screen font-sans">
         <Providers>
           <div className="max-w-4xl mx-auto px-4 py-8">
+            <Navigation />
             {children}
           </div>
         </Providers>
