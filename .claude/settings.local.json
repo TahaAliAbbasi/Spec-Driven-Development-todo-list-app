@@ -42,7 +42,22 @@
       "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(git add web_todo_app/backend/api/index.py web_todo_app/backend/vercel.json)",
-      "Bash(git add web_todo_app/backend/api/index.py)"
+      "Bash(git add web_todo_app/backend/api/index.py)",
+      "Bash(ls:*)",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \".specify/scripts/powershell/create-new-feature.ps1\" -Json -Number 1 -ShortName \"ai-chatbot\" \"AI-Powered Todo Chatbot with natural language interaction for Phase III\")",
+      "Bash(test:*)",
+      "Bash(.specify/scripts/bash/create-phr.sh:*)",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \".specify/scripts/powershell/setup-plan.ps1\" -Json)",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \".specify/scripts/powershell/update-agent-context.ps1\" -AgentType claude)",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \".specify/scripts/powershell/check-prerequisites.ps1\" -Json)",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \".specify/scripts/powershell/check-prerequisites.ps1\" -Json -RequireTasks -IncludeTasks)",
+      "Bash(pkill -f \"uvicorn src.main:app\")",
+      "Bash(git add:*)",
+      "Bash(uvicorn:*)",
+      "Bash(grep:*)",
+      "Bash(echo:*)",
+      "Bash(taskkill //F //IM uvicorn.exe)",
+      "Bash(taskkill:*)"
     ],
     "deny": [],
     "ask": []

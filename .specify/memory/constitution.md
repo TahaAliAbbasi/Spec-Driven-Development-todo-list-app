@@ -86,7 +86,7 @@ All features must meet clearly defined acceptance criteria documented in specifi
 - Deliverables: Functional web application with responsive UI
 
 ### Phase III: AI-Powered Todo Chatbot
-- Technologies: OpenAI ChatKit, Agents SDK, MCP SDK
+- Technologies: OpenAI ChatKit, OpenAI Agents SDK, MCP SDK
 - Requirements: Natural language processing for todo management
 - Disallowed: Complex infrastructure, cloud deployment
 - Deliverables: AI chatbot that can interpret and execute todo commands

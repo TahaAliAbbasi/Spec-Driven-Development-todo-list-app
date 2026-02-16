@@ -20,7 +20,7 @@ def create_app():
     app = FastAPI(
         title="Todo List API",
         description="A simple todo list API built with FastAPI and SQLModel",
-        version="0.1.0",
+        version="0.2.0",  # Updated for chatbot feature
         lifespan=lifespan
     )
 
