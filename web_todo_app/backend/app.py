@@ -38,7 +38,7 @@ def create_app():
         app = FastAPI(
             title="Todo List API",
             description="A simple todo list API built with FastAPI and SQLModel",
-            version="0.1.0",
+            version="0.2.0",  # Updated for chatbot feature
             lifespan=lifespan
         )
 
@@ -82,6 +82,16 @@ def create_app():
             traceback.print_exc()
     except Exception as e:
         print(f"Error importing routes: {e}")
+        import traceback
+        traceback.print_exc()
+
+    # Include chatbot routes (Phase III)
+    try:
+        from src.api.chatbot import routes as chatbot_routes
+        app.include_router(chatbot_routes.router, tags=["chatbot"])
+        print("Chatbot routes included successfully")
+    except Exception as e:
+        print(f"Error importing chatbot routes: {e}")
         import traceback
         traceback.print_exc()
 
