@@ -16,14 +16,14 @@ export default function ChatMessage({ message }: ChatMessageProps) {
       className={`flex ${isUser ? "justify-end" : "justify-start"} mb-4`}
     >
       <div
-        className={`max-w-[70%] rounded-lg px-4 py-2 ${
+        className={`max-w-[70%] rounded-lg px-4 py-3 shadow-sm ${
           isUser
-            ? "bg-blue-500 text-white"
-            : "bg-gray-200 text-gray-800"
+            ? "bg-primary-500 text-white"
+            : "bg-gray-100 text-gray-800 border border-gray-200"
         }`}
       >
-        <p className="whitespace-pre-wrap break-words">{message.content}</p>
-        <span className="text-xs opacity-70 mt-1 block">
+        <p className="whitespace-pre-wrap break-words text-sm sm:text-base">{message.content}</p>
+        <span className={`text-xs mt-1 block ${isUser ? "opacity-80" : "opacity-60"}`}>
           {new Date(message.timestamp).toLocaleTimeString()}
         </span>
       </div>

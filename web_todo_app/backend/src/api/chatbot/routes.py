@@ -6,6 +6,7 @@ from fastapi import APIRouter, HTTPException, status
 from datetime import datetime
 from typing import Optional
 import uuid
+import logging
 
 from .schemas import MessageRequest, MessageResponse, SessionResponse, ErrorResponse
 from ...chatbot.context_manager import context_manager
@@ -13,39 +14,46 @@ from ...chatbot.models import ChatMessage, MessageSender
 from ...config import settings
 
 router = APIRouter(prefix="/api/chatbot", tags=["chatbot"])
+logger = logging.getLogger(__name__)
+
+
+@router.post("/simple-test")
+async def simple_test(request: MessageRequest):
+    """Ultra simple test - no AI, no DB, just echo."""
+    return {
+        "message": f"Echo: {request.message}",
+        "session_id": "test-session"
+    }
+
+
+@router.get("/test")
+async def test_endpoint():
+    """Simple test endpoint to verify chatbot routes are working."""
+    logger.info("TEST endpoint called via GET")
+    return {"status": "ok", "message": "Chatbot routes are working"}
+
+
+@router.post("/test-post")
+async def test_post_endpoint(request: MessageRequest):
+    """Simple POST test endpoint."""
+    logger.info(f"TEST-POST endpoint called with message: {request.message}")
+    return {"status": "ok", "message": f"Received: {request.message}", "echo": request.message}
 
 
 @router.post("/message", response_model=MessageResponse)
 async def send_message(request: MessageRequest):
     """
-    Process a user message, parse intent, execute task operations, and return a conversational response.
+    Process a user message and return a conversational response.
 
-    This is the primary endpoint for chatbot interaction. It handles:
-    - Natural language understanding via intent parsing
-    - Task operations (CREATE, READ, UPDATE, DELETE, COMPLETE)
-    - Session management and conversation context
-    - Ambiguity detection and clarification requests
+    Uses intent parsing and task execution to handle natural language requests.
 
     Args:
         request: MessageRequest containing the user's message and optional session_id
 
     Returns:
-        MessageResponse with the bot's response, parsed intent, and session information
-
-    Raises:
-        HTTPException 400: If message content is empty
-        HTTPException 404: If provided session_id is not found or expired
-        HTTPException 500: If an unexpected error occurs during processing
-
-    Example:
-        ```json
-        POST /api/chatbot/message
-        {
-            "message": "add a task to buy groceries",
-            "session_id": "optional-session-id"
-        }
-        ```
+        MessageResponse with the bot's response and session information
     """
+    logger.info(f"Received chatbot message: {request.message[:50]}...")
     try:
         # Validate message content
         if not request.message or not request.message.strip():
@@ -72,12 +80,13 @@ async def send_message(request: MessageRequest):
         now = datetime.now()
 
         # Import chatbot components
-        from ...chatbot.intent_parser import intent_parser
+        from ...chatbot.intent_parser import get_intent_parser
         from ...chatbot.task_executor import TaskExecutor
         from ...chatbot.response_generator import response_generator
         from ...database import get_session as get_db_session
 
         # Parse intent from user message
+        intent_parser = get_intent_parser()
         intent = await intent_parser.parse_intent(request.message, session.context_window)
 
         # Check if intent is ambiguous
@@ -160,8 +169,7 @@ async def send_message(request: MessageRequest):
     except HTTPException:
         raise
     except Exception as e:
-        import traceback
-        traceback.print_exc()
+        logger.error(f"Error processing message: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"An unexpected error occurred: {str(e)}"

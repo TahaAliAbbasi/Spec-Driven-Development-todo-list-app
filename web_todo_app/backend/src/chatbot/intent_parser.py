@@ -5,6 +5,7 @@ Uses OpenAI API to parse user messages and extract structured intents.
 from typing import Optional
 import json
 import logging
+import asyncio
 from openai import OpenAI
 from .models import Intent, IntentAction
 from ..config import settings
@@ -25,7 +26,10 @@ class IntentParser:
             raise ValueError("API key not configured. Please set OPENAI_API_KEY or OPENROUTER_API_KEY in .env file.")
 
         # Initialize OpenAI client with OpenRouter support
-        client_kwargs = {"api_key": settings.api_key}
+        client_kwargs = {
+            "api_key": settings.api_key,
+            "timeout": 10.0  # 10 second timeout to prevent hanging
+        }
 
         # Use custom base URL if provided (for OpenRouter)
         if settings.OPENAI_BASE_URL:
@@ -114,24 +118,37 @@ Return ONLY valid JSON, no additional text."""
                 {"role": "user", "content": message}
             ]
 
-            # Call OpenAI/OpenRouter API
+            # Call OpenAI/OpenRouter API in a thread pool to avoid blocking
             logger.debug(f"Calling {self.model} API for intent parsing")
-            response = self.client.chat.completions.create(
-                model=self.model,
-                messages=messages,
-                temperature=0.3,  # Lower temperature for more consistent parsing
-                max_tokens=500,
-                response_format={"type": "json_object"}
+
+            # Run the synchronous API call in a thread pool
+            loop = asyncio.get_event_loop()
+            response = await loop.run_in_executor(
+                None,  # Use default thread pool
+                lambda: self.client.chat.completions.create(
+                    model=self.model,
+                    messages=messages,
+                    temperature=0.3,
+                    max_tokens=500
+                )
             )
 
             # Parse the response
             content = response.choices[0].message.content
+            logger.info(f"Raw AI response: {content[:200]}")
+
+            # Try to extract JSON if wrapped in markdown code blocks
+            if "```json" in content:
+                content = content.split("```json")[1].split("```")[0].strip()
+            elif "```" in content:
+                content = content.split("```")[1].split("```")[0].strip()
+
             parsed = json.loads(content)
             logger.debug(f"Parsed intent: {parsed}")
 
             # Create Intent object
             intent = Intent(
-                action=IntentAction(parsed.get("action", "READ")),
+                action=IntentAction(parsed.get("action") or "READ"),
                 confidence=float(parsed.get("confidence", 0.5)),
                 task_title=parsed.get("task_title"),
                 task_description=parsed.get("task_description"),
@@ -158,6 +175,14 @@ Return ONLY valid JSON, no additional text."""
                 ambiguous=True,
                 clarification_needed="I had trouble understanding that. Could you try rephrasing?"
             )
+        except TimeoutError as e:
+            logger.error(f"Timeout error while calling AI API: {e}")
+            return Intent(
+                action=IntentAction.READ,
+                confidence=0.0,
+                ambiguous=True,
+                clarification_needed="The AI service is taking too long to respond. Please try again in a moment."
+            )
         except Exception as e:
             logger.error(f"Error parsing intent: {e}", exc_info=True)
             # Generic error handling
@@ -165,9 +190,16 @@ Return ONLY valid JSON, no additional text."""
                 action=IntentAction.READ,
                 confidence=0.0,
                 ambiguous=True,
-                clarification_needed=f"I encountered an error: {str(e)}. Please try again."
+                clarification_needed=f"The AI service is currently unavailable. Error: {str(e)[:100]}"
             )
 
 
-# Global intent parser instance
-intent_parser = IntentParser()
+# Global intent parser instance (lazy initialization)
+_intent_parser = None
+
+def get_intent_parser() -> IntentParser:
+    """Get or create the global intent parser instance."""
+    global _intent_parser
+    if _intent_parser is None:
+        _intent_parser = IntentParser()
+    return _intent_parser

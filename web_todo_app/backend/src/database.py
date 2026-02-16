@@ -6,6 +6,10 @@ from typing import Generator
 import os
 from contextlib import contextmanager
 import logging
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)

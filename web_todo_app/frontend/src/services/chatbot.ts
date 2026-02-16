@@ -9,7 +9,7 @@ import {
   ErrorResponse,
 } from "../types/chatbot";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8001";
 
 /**
  * Send a message to the chatbot and receive a response.

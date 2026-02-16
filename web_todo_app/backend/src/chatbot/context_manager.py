@@ -77,10 +77,6 @@ class ContextManager:
 
         logger.debug(f"Retrieved session: {session_id}, messages: {len(session.messages)}")
         return session
-            del self._sessions[session_id]
-            return None
-
-        return session
 
     def update_session(
         self,
